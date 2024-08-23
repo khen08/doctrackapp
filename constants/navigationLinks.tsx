@@ -5,7 +5,14 @@ import {
   IconFileInfo,
 } from "@tabler/icons-react";
 
-export const LINKS = [
+export type LinkItem = {
+  title: string;
+  icon: JSX.Element;
+  href?: string;
+  onClick?: () => void;
+};
+
+export const LINKS: LinkItem[] = [
   {
     title: "Upload Files",
     icon: (
@@ -29,7 +36,7 @@ export const LINKS = [
   },
 ];
 
-export const getUpdatedLinks = (currentPath: string) => {
+export const getUpdatedLinks = (currentPath: string): LinkItem[] => {
   return LINKS.map((link) => {
     if (currentPath === "/upload" && link.title === "Upload Files") {
       return {
