@@ -1,0 +1,42 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+model User {
+  id             Int       @id @default(autoincrement())
+  name           String
+  username       String    @unique
+  password       String
+  failedAttempts Int       @default(0)
+  lockoutUntil   DateTime?
+  role           Role      @default(USER)
+  files          File[]
+}
+
+model File {
+  id           Int      @id @default(autoincrement())
+  fileName     String
+  fileSize     Float
+  fileLocation String
+  receivedBy   User?    @relation(fields: [userId], references: [id])
+  userId       Int
+  dateUploaded DateTime @default(now())
+  dateReceived DateTime @default(now())
+  status       Status   @default(PENDING)
+}
+
+enum Status {
+  APPROVED
+  PENDING
+  REVISION
+}
