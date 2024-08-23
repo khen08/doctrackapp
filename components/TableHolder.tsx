@@ -4,6 +4,8 @@ import DataTable from "./DataTable";
 import Pagination from "@/components/Pagination";
 import StatusFilter from "@/components/StatusFilter";
 import { Status, File } from "@prisma/client";
+import { getServerSession } from "next-auth";
+import options from "@/app/api/auth/[...nextauth]/options";
 
 export interface SearchParams {
   status: Status;
@@ -35,10 +37,6 @@ const TableHolder = async ({
     where = {
       status,
     };
-  } else {
-    where = {
-      NOT: [{ status: "APPROVED" as Status }],
-    };
   }
 
   const fileCount = await prisma.file.count({ where });
@@ -52,12 +50,21 @@ const TableHolder = async ({
     include: { User: true },
   });
 
+  // Fetch the current user's session
+  const session = await getServerSession(options);
+  const currentUser = session?.user; // Assuming session.user has the required properties
+
   return (
     <div className="w-full p-4 md:p-6 lg:p-8">
       <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-4">
         <StatusFilter />
       </div>
-      <DataTable files={files} searchParams={searchParams} />
+      <DataTable
+        files={files}
+        searchParams={searchParams}
+        currentUser={currentUser}
+      />
+      <div className="w-full h-px my-6" /> {/* separator */}
       <Pagination
         itemCount={fileCount}
         pageSize={pageSize}

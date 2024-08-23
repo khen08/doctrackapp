@@ -20,7 +20,7 @@ const FloatingDockComponent = () => {
           icon: (
             <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
           ),
-          href: "/",
+          href: "/files",
         };
       }
       return link;

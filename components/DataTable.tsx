@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Table,
   TableBody,
@@ -8,19 +9,20 @@ import {
 } from "@/components/ui/table";
 import { File, User } from "@prisma/client";
 import Link from "next/link";
-import React from "react";
 import { ArrowDown, ArrowUp } from "lucide-react";
 import { SearchParams } from "./TableHolder";
 import FileStatusBadge from "@/components/FileStatusBadge";
+import StatusSelect from "@/components/StatusSelect";
 
 type FileWithUser = File & { User: User | null };
 
 interface Props {
   files: FileWithUser[];
   searchParams: SearchParams;
+  currentUser: User | null; // Adjust the type as per your session user object
 }
 
-const DataTable = ({ files, searchParams }: Props) => {
+const DataTable = async ({ files, searchParams, currentUser }: Props) => {
   const getNextOrder = (field: keyof File) => {
     if (searchParams.orderBy === field && searchParams.order === "asc") {
       return "desc";
@@ -142,54 +144,54 @@ const DataTable = ({ files, searchParams }: Props) => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {files
-              ? files.map((file) => (
-                  <TableRow key={file.id} data-href="/">
-                    <TableCell>
-                      <Link href="#">{file.fileName}</Link>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
-                        {file.fileSize} MB
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
-                        {file.dateUploaded.toLocaleDateString("en-US", {
-                          year: "2-digit",
-                          month: "2-digit",
-                          day: "2-digit",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        })}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
-                        {file.dateReceived.toLocaleDateString("en-US", {
-                          year: "2-digit",
-                          month: "2-digit",
-                          day: "2-digit",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        })}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
-                        <FileStatusBadge status={file.status} />
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex justify-center">
-                        {file.User ? file.User.name : "Unknown"}
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))
-              : null}
+            {files.map((file) => (
+              <TableRow key={file.id}>
+                <TableCell>
+                  <Link href="#">{file.fileName}</Link>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">{file.fileSize} MB</div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    {file.dateUploaded.toLocaleDateString("en-US", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "numeric",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    {file.dateReceived.toLocaleDateString("en-US", {
+                      year: "2-digit",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "numeric",
+                      minute: "2-digit",
+                      hour12: true,
+                    })}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    {currentUser && currentUser.role === "ADMIN" ? (
+                      <StatusSelect id={file.id} status={file.status} />
+                    ) : (
+                      <FileStatusBadge status={file.status} />
+                    )}
+                  </div>
+                </TableCell>
+                <TableCell>
+                  <div className="flex justify-center">
+                    {file.User ? file.User.name : "Unknown"}
+                  </div>
+                </TableCell>
+              </TableRow>
+            ))}
           </TableBody>
         </Table>
       </div>

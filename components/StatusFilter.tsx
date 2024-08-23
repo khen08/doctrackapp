@@ -11,6 +11,7 @@ import {
 } from "./ui/select";
 
 const statuses: { label: string; value?: string }[] = [
+  { label: "All", value: "" },
   { label: "Approved", value: "APPROVED" },
   { label: "Pending", value: "PENDING" },
   { label: "Revision", value: "REVISION" },
@@ -29,7 +30,7 @@ const StatusFilter = () => {
         if (status) params.append("status", status);
 
         const query = params.size ? `?${params.toString()}` : "0";
-        router.push(`/${query}`);
+        router.push(`/files/${query}`);
       }}
     >
       <SelectTrigger className="w-[200px]">

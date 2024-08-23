@@ -6,7 +6,7 @@ import FloatingDockComponent from "./FloatingDock";
 
 const Dashboard = () => {
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center mb-32">
       <div className="w-full max-w-4xl mx-auto min-h-96 border border-dashed bg-white dark:bg-black border-neutral-200 dark:border-neutral-800 rounded-lg">
         <FileUpload />
       </div>

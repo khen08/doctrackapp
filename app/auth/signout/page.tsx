@@ -18,7 +18,7 @@ const SignOut = () => {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen pt-24">
+    <div className="flex items-center justify-center pt-24 mb-60">
       <Card className="w-full max-w-sm">
         <CardHeader>
           <CardTitle className="text-2xl">Sign Out</CardTitle>

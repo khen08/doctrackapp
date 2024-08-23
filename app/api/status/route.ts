@@ -1,30 +1,35 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import prisma from "@/prisma/db";
 import { z } from "zod";
 
+// Define the schema for validating the request body
 const statusUpdateSchema = z.object({
-  fileId: z.number(),
+  id: z.number(),
   status: z.enum(["APPROVED", "PENDING", "REVISION"]),
 });
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === "PATCH") {
-    const result = statusUpdateSchema.safeParse(req.body);
+// Handler for PATCH requests
+export async function PATCH(req: Request) {
+  try {
+    // Parse and validate the request body
+    const result = statusUpdateSchema.safeParse(await req.json());
     if (!result.success) {
-      return res.status(400).json(result.error.errors);
+      return NextResponse.json(result.error.errors, { status: 400 });
     }
 
-    const { fileId, status } = result.data;
+    const { id, status } = result.data;
 
+    // Update the file status in the database
     const file = await prisma.file.update({
-      where: { id: fileId },
+      where: { id: id },
       data: { status },
     });
 
-    return res.status(200).json(file);
-  } else {
-    return res.status(405).json({ error: "Method not allowed" });
+    return NextResponse.json(file);
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to update file status" },
+      { status: 500 }
+    );
   }
-};
-
-export default handler;
+}
