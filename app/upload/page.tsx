@@ -1,8 +1,8 @@
 import React from "react";
-import Dashboard from "./Dashboard";
+import Upload from "@/components/Upload";
 
 const page = () => {
-  return <Dashboard />;
+  return <Upload />;
 };
 
 export default page;

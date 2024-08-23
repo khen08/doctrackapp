@@ -28,11 +28,12 @@ model File {
   fileName     String
   fileSize     Float
   fileLocation String
-  receivedBy   User?    @relation(fields: [userId], references: [id])
+  //receivedBy   String
   userId       Int
   dateUploaded DateTime @default(now())
   dateReceived DateTime @default(now())
   status       Status   @default(PENDING)
+  User         User     @relation(fields: [userId], references: [id])
 }
 
 enum Status {

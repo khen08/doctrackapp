@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Recursive } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
+import { ThemeProvider } from "next-themes";
 
 const recursive = Recursive({ subsets: ["latin"] });
 
@@ -18,8 +19,22 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={recursive.className}>
-        <Navbar />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="flex flex-col h-screen">
+            <nav className="flex-none border-b">
+              <Navbar />
+            </nav>
+
+            <main className="my-auto items-center justify-center">
+              {children}
+            </main>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

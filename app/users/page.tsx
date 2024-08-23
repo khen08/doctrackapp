@@ -1,5 +1,5 @@
 import UserForm from "@/components/UserForm";
-import React from "react";
+import React, { use } from "react";
 import UserTable from "./UserTable";
 import prisma from "@/prisma/db";
 import Pagination from "@/components/Pagination";
@@ -49,7 +49,7 @@ const Users = async ({ searchParams }: { searchParams: SearchParams }) => {
   });
 
   return (
-    <div className="p-4 md:p-6 lg:p-8 flex flex-col gap-4">
+    <div className="w-full p-4 md:p-6 lg:p-8 flex flex-col gap-4">
       <UserForm />
       <RoleFilter />
       <UserTable users={users} searchParams={searchParams} />
