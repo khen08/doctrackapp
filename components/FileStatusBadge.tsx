@@ -15,7 +15,7 @@ const statusMap: Record<
   APPROVED: { label: "Approved", color: "bg-green-400" },
 };
 
-const TicketStatusBadge = ({ status }: Props) => {
+const FileStatusBadge = ({ status }: Props) => {
   return (
     <Badge
       className={`${statusMap[status].color} text-background hover:${statusMap[status].color}`}
@@ -25,4 +25,4 @@ const TicketStatusBadge = ({ status }: Props) => {
   );
 };
 
-export default TicketStatusBadge;
+export default FileStatusBadge;

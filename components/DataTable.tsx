@@ -129,8 +129,8 @@ const DataTable = ({ files, searchParams }: Props) => {
                     href={{
                       query: {
                         ...searchParams,
-                        orderBy: "status",
-                        order: getNextOrder("status"),
+                        orderBy: "userId",
+                        order: getNextOrder("userId"),
                       },
                     }}
                   >
