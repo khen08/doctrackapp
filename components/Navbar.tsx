@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 import { TextEffect } from "./TextEffect";
 import { IconScript } from "@tabler/icons-react";
 import ToggleMode from "./ToggleMode";
+import Image from "next/image";
 
 export function Navbar() {
   const [currentDateTime, setCurrentDateTime] = useState<Date | null>(null);
@@ -20,10 +21,12 @@ export function Navbar() {
   return (
     <div className="w-full h-24 py-4 px-8 bg-zinc-100 dark:bg-zinc-800 text-black dark:text-white shadow-lg flex items-center justify-between z-50">
       <div className="flex items-center w-1/4 lg:w-1/6 xl:w-1/8">
-        <img
+        <Image
           src="/logo.png"
-          className="w-24 lg:w-28 xl:w-32"
           alt="Company Logo"
+          width={96}
+          height={96}
+          className="w-24 lg:w-28 xl:w-32"
         />
       </div>
 

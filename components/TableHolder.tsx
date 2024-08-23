@@ -50,9 +50,8 @@ const TableHolder = async ({
     include: { User: true },
   });
 
-  // Fetch the current user's session
   const session = await getServerSession(options);
-  const currentUser = session?.user; // Assuming session.user has the required properties
+  const currentUser = session?.user;
 
   return (
     <div className="w-full p-4 md:p-6 lg:p-8">

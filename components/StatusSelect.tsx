@@ -19,18 +19,17 @@ const statuses: { label: string; value: Status }[] = [
 
 interface StatusSelectProps {
   id: number;
-  status: Status; // Initial status passed as a prop
+  status: Status;
 }
 
 const StatusSelect: React.FC<StatusSelectProps> = ({ id, status }) => {
   const [selectedStatus, setSelectedStatus] = useState<Status>(status);
   const router = useRouter();
 
-  // Fetch the latest status from the database when the component mounts
   useEffect(() => {
     const fetchCurrentStatus = async () => {
       try {
-        const response = await fetch(`/api/status/${id}`); // Adjusted path
+        const response = await fetch(`/api/status/${id}`);
         if (response.ok) {
           const data = await response.json();
           setSelectedStatus(data.status);
@@ -50,7 +49,7 @@ const StatusSelect: React.FC<StatusSelectProps> = ({ id, status }) => {
 
   const handleStatusChange = async (newStatus: Status) => {
     const previousStatus = selectedStatus;
-    setSelectedStatus(newStatus); // Optimistic update
+    setSelectedStatus(newStatus);
 
     try {
       const response = await fetch(`/api/status`, {
@@ -65,10 +64,10 @@ const StatusSelect: React.FC<StatusSelectProps> = ({ id, status }) => {
         throw new Error("Failed to update status");
       }
 
-      router.refresh(); // Optionally refresh the page
+      router.refresh();
     } catch (error) {
       console.error("An error occurred while updating status:", error);
-      setSelectedStatus(previousStatus); // Revert to previous status on error
+      setSelectedStatus(previousStatus);
     }
   };
 

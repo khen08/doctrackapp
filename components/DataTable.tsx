@@ -19,7 +19,7 @@ type FileWithUser = File & { User: User | null };
 interface Props {
   files: FileWithUser[];
   searchParams: SearchParams;
-  currentUser: User | null; // Adjust the type as per your session user object
+  currentUser: User | null;
 }
 
 const DataTable = async ({ files, searchParams, currentUser }: Props) => {

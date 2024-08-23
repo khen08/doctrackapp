@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import prisma from "@/prisma/db";
 
-// GET handler for fetching status
-export async function GET({ params }: { params: { id: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
   const id = params.id;
 
   if (id) {

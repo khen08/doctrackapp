@@ -12,7 +12,6 @@ const fetchData = async (query: Record<string, string | undefined>) => {
   return { status, page, orderBy, order };
 };
 
-// Server-side component
 const Files = async ({
   searchParams,
 }: {
