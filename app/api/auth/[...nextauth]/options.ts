@@ -2,6 +2,7 @@ import prisma from "@/prisma/db";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { pages } from "@/app/config/pages";
 
 const MAX_ATTEMPTS = 10;
 const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes lockout duration
@@ -79,10 +80,7 @@ const options: NextAuthOptions = {
       },
     }),
   ],
-  pages: {
-    signIn: "/auth/signin",
-    signOut: "/auth/signout",
-  },
+  pages,
   callbacks: {
     async jwt({ token, account, user }) {
       if (account) {

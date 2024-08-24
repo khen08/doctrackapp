@@ -34,7 +34,6 @@ export default async function RootLayout({
               <Navbar />
             </nav>
 
-            {/* Display the user's name below the Navbar if logged in */}
             {session?.user && (
               <div className="text-center mt-4">
                 <p>
