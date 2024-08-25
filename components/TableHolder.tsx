@@ -19,7 +19,7 @@ const TableHolder = async ({
 }: {
   searchParams: SearchParams;
 }) => {
-  const pageSize = 10;
+  const pageSize = 8;
   const page = parseInt(searchParams.page) || 1;
 
   const orderBy = searchParams.orderBy ? searchParams.orderBy : "dateUploaded";
@@ -39,7 +39,6 @@ const TableHolder = async ({
     };
   }
 
-  // Fetch all files based on filters and user role
   const session = await getServerSession(options);
   const currentUser = session?.user as User | null;
 
@@ -51,19 +50,16 @@ const TableHolder = async ({
     include: { User: true },
   });
 
-  // Filter files based on the current user's role
   const userFiles =
     currentUser && currentUser.role !== "ADMIN"
       ? allFiles.filter((file) => file.userId === currentUser.id)
       : allFiles;
 
-  // Total count for pagination
   const filteredFileCount =
     currentUser && currentUser.role !== "ADMIN"
       ? userFiles.length
       : allFiles.length;
 
-  // Fetch files for the current page
   const files = userFiles.slice((page - 1) * pageSize, page * pageSize);
 
   return (

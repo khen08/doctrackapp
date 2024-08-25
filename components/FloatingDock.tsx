@@ -3,30 +3,61 @@
 import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { FloatingDock } from "@/components/ui/floating-dock";
-import { LINKS } from "@/constants/navigationLinks";
-import { IconFileInfo } from "@tabler/icons-react";
+import { LINKS, LinkItem } from "@/constants/navigationLinks";
+import { IconFileInfo, IconUserPlus } from "@tabler/icons-react";
 
-const FloatingDockComponent = () => {
+interface FloatingDockComponentProps {
+  session: any;
+}
+
+const FloatingDockComponent: React.FC<FloatingDockComponentProps> = ({
+  session,
+}) => {
   const pathname = usePathname();
-  const [updatedLinks, setUpdatedLinks] = useState(LINKS);
+  const [updatedLinks, setUpdatedLinks] = useState<LinkItem[]>(LINKS);
 
   useEffect(() => {
-    console.log("Current Path:", pathname);
-    const newLinks = LINKS.map((link) => {
-      if (link.href === "/upload" && pathname === "/upload") {
-        return {
-          ...link,
-          title: "My Files",
-          icon: (
-            <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
-          ),
-          href: "/files",
-        };
+    const newLinks: LinkItem[] = [];
+
+    if (session?.user?.role === "ADMIN") {
+      newLinks.push({
+        title: "Add User",
+        icon: (
+          <IconUserPlus className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
+        ),
+        href: "/users",
+      });
+    }
+
+    if (pathname === "/upload") {
+      newLinks.push({
+        title: "My Files",
+        icon: (
+          <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
+        ),
+        href: "/files",
+      });
+    } else {
+      const uploadLink = LINKS.find((link) => link.href === "/upload");
+      if (uploadLink) {
+        newLinks.push(uploadLink);
       }
-      return link;
-    });
+    }
+
+    const notificationsLink = LINKS.find(
+      (link) => link.title === "Notifications"
+    );
+    if (notificationsLink) {
+      newLinks.push(notificationsLink);
+    }
+
+    const signOutLink = LINKS.find((link) => link.title === "Sign Out");
+    if (signOutLink) {
+      newLinks.push(signOutLink);
+    }
+
     setUpdatedLinks(newLinks);
-  }, [pathname]);
+  }, [pathname, session]);
 
   return (
     <div className="fixed bottom-0 left-1/2 transform -translate-x-1/2 mb-4">

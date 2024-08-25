@@ -7,6 +7,7 @@ import RoleFilter from "@/components/RoleFilter";
 import { User } from "@prisma/client";
 import options from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
+import FloatingDockComponent from "@/components/FloatingDock";
 
 export interface SearchParams {
   role: string;
@@ -49,15 +50,20 @@ const Users = async ({ searchParams }: { searchParams: SearchParams }) => {
   });
 
   return (
-    <div className="w-full p-4 md:p-6 lg:p-8 flex flex-col gap-4">
-      <UserForm />
-      <RoleFilter />
-      <UserTable users={users} searchParams={searchParams} />
-      <Pagination
-        itemCount={userCount}
-        pageSize={pageSize}
-        currentPage={page}
-      />
+    <div>
+      <div className="w-full max-h-[100vh] p-4 md:p-6 lg:p-8 flex flex-row gap-4 items-start">
+        <UserForm />
+        <div className="w-full flex flex-col gap-4">
+          <RoleFilter />
+          <UserTable users={users} searchParams={searchParams} />
+          <Pagination
+            itemCount={userCount}
+            pageSize={pageSize}
+            currentPage={page}
+          />
+        </div>
+      </div>
+      <FloatingDockComponent session={session} />
     </div>
   );
 };

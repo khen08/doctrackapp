@@ -45,9 +45,7 @@ export default async function RootLayout({
               </div>
             )}
 
-            <main className="my-auto items-center justify-center">
-              {children}
-            </main>
+            <main className="my-8 items-center justify-center">{children}</main>
           </div>
         </ThemeProvider>
       </body>
