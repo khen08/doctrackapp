@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "server": "bun x --bun http-server ./ --cors"
   },
   "dependencies": {
     "@cyntler/react-doc-viewer": "^1.16.6",

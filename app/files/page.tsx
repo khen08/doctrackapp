@@ -22,7 +22,6 @@ const Files = async ({
   const { status, page, orderBy, order } = await fetchData(searchParams);
 
   const session = await getServerSession(options);
-  console.log("Session data:", session);
 
   return (
     <div>
