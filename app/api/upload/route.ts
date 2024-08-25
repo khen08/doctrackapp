@@ -22,17 +22,24 @@ export async function POST(req: Request) {
     }
 
     const userId = session.user.id;
+    const userName = session.user.name;
+    const userFolder = path.join("public/uploads", String(userName));
+
+    if (!fs.existsSync(userFolder)) {
+      fs.mkdirSync(userFolder, { recursive: true });
+    }
 
     const fileEntries = files.map((file: File) => ({
       fileName: file.name,
       fileSize: parseFloat((file.size / (1024 * 1024)).toFixed(3)),
-      fileLocation: "",
-      userId,
+      fileLocation: path.join(userFolder, file.name),
+      userId: Number(userId),
     }));
 
     const savedFiles = await Promise.all(
       files.map(async (file: File) => {
-        const filePath = path.join("uploads", file.name);
+        const filePath = path.join(userFolder, file.name);
+        console.log("Saving file to:", filePath);
 
         fs.writeFileSync(filePath, Buffer.from(await file.arrayBuffer()));
 

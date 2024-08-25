@@ -1,9 +1,4 @@
-import {
-  IconFileUpload,
-  IconBell,
-  IconLogout,
-  IconFileInfo,
-} from "@tabler/icons-react";
+import { IconFileUpload, IconBell, IconLogout } from "@tabler/icons-react";
 
 export type LinkItem = {
   title: string;
@@ -35,19 +30,3 @@ export const LINKS: LinkItem[] = [
     href: "/auth/signout",
   },
 ];
-
-export const getUpdatedLinks = (currentPath: string): LinkItem[] => {
-  return LINKS.map((link) => {
-    if (currentPath === "/upload" && link.title === "Upload Files") {
-      return {
-        ...link,
-        title: "Files",
-        icon: (
-          <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
-        ),
-        href: "/",
-      };
-    }
-    return link;
-  });
-};

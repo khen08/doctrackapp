@@ -16,7 +16,6 @@ const Dashboard = async () => {
 
 export default Dashboard;
 
-//delete functionality to files
 //comments or notes to files
 //notifications
 //received by?????

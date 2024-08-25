@@ -16,7 +16,7 @@ const FloatingDockComponent = () => {
       if (link.href === "/upload" && pathname === "/upload") {
         return {
           ...link,
-          title: "Files",
+          title: "My Files",
           icon: (
             <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
           ),
