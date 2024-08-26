@@ -4,6 +4,7 @@ import { Status, File } from "@prisma/client";
 import { Metadata } from "next";
 import { getServerSession } from "next-auth/next";
 import options from "../api/auth/[...nextauth]/options";
+import AccountChecker from "@/components/AccountChecker";
 
 const fetchData = async (query: Record<string, string | undefined>) => {
   const status = (query.status as Status) || Status.PENDING;
@@ -25,6 +26,7 @@ const Files = async ({
 
   return (
     <div>
+      <AccountChecker />
       <TableHolder
         searchParams={{ status, page: page.toString(), orderBy, order }}
       />

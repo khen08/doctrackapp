@@ -8,6 +8,7 @@ import { User } from "@prisma/client";
 import options from "../api/auth/[...nextauth]/options";
 import { getServerSession } from "next-auth";
 import FloatingDockComponent from "@/components/FloatingDock";
+import AccountChecker from "@/components/AccountChecker";
 
 export interface SearchParams {
   role: string;
@@ -51,6 +52,7 @@ const Users = async ({ searchParams }: { searchParams: SearchParams }) => {
 
   return (
     <div>
+      <AccountChecker />
       <div className="w-full max-h-[100vh] p-4 md:p-6 lg:p-8 flex flex-row gap-4 items-start">
         <UserForm />
         <div className="w-full flex flex-col gap-4">

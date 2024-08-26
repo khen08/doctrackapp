@@ -3,8 +3,6 @@ import { Recursive } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/Navbar";
 import { ThemeProvider } from "next-themes";
-import { getServerSession } from "next-auth/next";
-import options from "@/app/api/auth/[...nextauth]/options";
 
 const recursive = Recursive({ subsets: ["latin"] });
 
@@ -18,8 +16,6 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const session = await getServerSession(options);
-
   return (
     <html lang="en">
       <body className={recursive.className}>
@@ -33,17 +29,6 @@ export default async function RootLayout({
             <nav className="flex-none border-b">
               <Navbar />
             </nav>
-
-            {session?.user && (
-              <div className="text-center mt-4">
-                <p>
-                  Currently logged in as:{" "}
-                  <span className="font-bold text-primary">
-                    {session.user.name}
-                  </span>
-                </p>
-              </div>
-            )}
 
             <main className="my-8 items-center justify-center">{children}</main>
           </div>

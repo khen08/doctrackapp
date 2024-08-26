@@ -90,7 +90,6 @@ const DataTable: React.FC<Props> = ({ files, searchParams, currentUser }) => {
     return null;
   };
 
-  // Function to encode user's name to URL format
   const encodeUserName = (name: string) => encodeURIComponent(name);
 
   return (
@@ -201,7 +200,6 @@ const DataTable: React.FC<Props> = ({ files, searchParams, currentUser }) => {
           </TableHeader>
           <TableBody>
             {userFiles.map((file) => {
-              const fileType = mime.getType(file.fileName);
               const userName = file.User
                 ? encodeUserName(file.User.name)
                 : "unknown";
@@ -213,7 +211,7 @@ const DataTable: React.FC<Props> = ({ files, searchParams, currentUser }) => {
                     <Dialog>
                       <DialogTrigger asChild>
                         <span
-                          className="cursor-pointer text-blue-600 hover:underline"
+                          className="cursor-pointer text-primary hover:underline"
                           onClick={() =>
                             setSelectedFile({
                               fileUrl,
