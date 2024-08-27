@@ -18,6 +18,7 @@ import { Button, buttonVariants } from "./ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
+import DeleteButton from "@/app/users/[id]/DeleteButton";
 
 type UserFormData = z.infer<typeof userSchema>;
 
@@ -152,6 +153,7 @@ const UserForm = ({ user }: Props) => {
             >
               {user ? "Update User" : "Create User"}
             </Button>
+            {user && <DeleteButton userId={user.id} />}
           </div>
         </form>
       </Form>

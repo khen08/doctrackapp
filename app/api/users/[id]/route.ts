@@ -1,7 +1,9 @@
 import prisma from "@/prisma/db";
 import { userSchema } from "@/ValidationSchemas/users";
 import bcrypt from "bcryptjs";
+import { getServerSession } from "next-auth/next";
 import { NextRequest, NextResponse } from "next/server";
+import options from "../../auth/[...nextauth]/options";
 
 interface Props {
   params: { id: string };
@@ -53,17 +55,37 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 }
 
 export async function DELETE(request: NextRequest, { params }: Props) {
+  const session = await getServerSession(options);
+
+  if (!session) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const userId = parseInt(params.id);
+  const loggedInUserId = session.user.id;
+
   const user = await prisma.user.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: userId },
   });
 
   if (!user) {
-    return NextResponse.json({ error: "User Not Found." }, { status: 400 });
+    return NextResponse.json({ error: "User Not Found." }, { status: 404 });
   }
 
-  await prisma.user.delete({
-    where: { id: user.id },
-  });
+  if (userId === loggedInUserId) {
+    await prisma.user.delete({
+      where: { id: userId },
+    });
 
-  return NextResponse.json({ message: "User Deleted." });
+    return NextResponse.json({
+      message: "User Deleted",
+      redirectTo: "/auth/signin",
+    });
+  } else {
+    await prisma.user.delete({
+      where: { id: userId },
+    });
+
+    return NextResponse.json({ message: "User Deleted." });
+  }
 }

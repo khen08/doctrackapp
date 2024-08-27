@@ -8,6 +8,7 @@ const MAX_ATTEMPTS = 10;
 const LOCKOUT_DURATION = 15 * 60 * 1000; // 15 minutes lockout duration
 
 const options: NextAuthOptions = {
+  secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
       id: "credentials",

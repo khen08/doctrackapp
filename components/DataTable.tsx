@@ -47,7 +47,7 @@ const DataTable: React.FC<Props> = ({ files, searchParams, currentUser }) => {
 
   const deleteFile = async (fileId: number) => {
     try {
-      const response = await fetch(`/api/delete`, {
+      const response = await fetch(`/api/files/delete`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
