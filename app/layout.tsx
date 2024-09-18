@@ -26,7 +26,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <div className="flex flex-col h-screen">
-            <nav className="flex-none">
+            <nav className="flex-none border-b">
               <Navbar />
             </nav>
 

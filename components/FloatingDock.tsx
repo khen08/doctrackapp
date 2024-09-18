@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FloatingDock } from "@/components/ui/floating-dock";
 import { LINKS, LinkItem } from "@/constants/navigationLinks";
 import { IconFileInfo, IconUserPlus } from "@tabler/icons-react";
@@ -14,7 +14,13 @@ const FloatingDockComponent: React.FC<FloatingDockComponentProps> = ({
   session,
 }) => {
   const pathname = usePathname();
+  const router = useRouter();
   const [updatedLinks, setUpdatedLinks] = useState<LinkItem[]>(LINKS);
+
+  const handleNavigation = (href: string) => {
+    router.push(href);
+    router.refresh();
+  };
 
   useEffect(() => {
     const newLinks: LinkItem[] = [];
@@ -25,7 +31,7 @@ const FloatingDockComponent: React.FC<FloatingDockComponentProps> = ({
         icon: (
           <IconUserPlus className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
         ),
-        href: "/users",
+        onClick: () => handleNavigation("/users"),
       });
     }
 
@@ -35,12 +41,15 @@ const FloatingDockComponent: React.FC<FloatingDockComponentProps> = ({
         icon: (
           <IconFileInfo className="h-8 w-8 text-neutral-500 dark:text-neutral-300" />
         ),
-        href: "/files",
+        onClick: () => handleNavigation("/files"),
       });
     } else {
-      const uploadLink = LINKS.find((link) => link.href === "/upload");
+      const uploadLink = LINKS.find((link) => link.title === "Upload Files");
       if (uploadLink) {
-        newLinks.push(uploadLink);
+        newLinks.push({
+          ...uploadLink,
+          onClick: () => handleNavigation("/upload"),
+        });
       }
     }
 
@@ -53,7 +62,10 @@ const FloatingDockComponent: React.FC<FloatingDockComponentProps> = ({
 
     const signOutLink = LINKS.find((link) => link.title === "Sign Out");
     if (signOutLink) {
-      newLinks.push(signOutLink);
+      newLinks.push({
+        ...signOutLink,
+        onClick: () => handleNavigation("/auth/signout"),
+      });
     }
 
     setUpdatedLinks(newLinks);
